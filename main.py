@@ -62,4 +62,4 @@ def secret_number_handler():
 
 
 if __name__ == "__main__":
-    app.run(port=5004, use_reloader=True)
+    app.run(use_reloader=True)
