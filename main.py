@@ -27,8 +27,11 @@ def login():
     email = request.form.get("email")
     secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
 
-    user = User(first_name=first_name, last_name=last_name, email=email, secret_number=secret_number)
-    print(user.first_name, user.last_name, user.email, user.secret_number)
+    user = db.query(User).filter_by(email=email).first()
+
+    if not user:
+        user = User(first_name=first_name, last_name=last_name, email=email, secret_number=secret_number)
+
     user.save()
 
     response = make_response(redirect(url_for("index")))
