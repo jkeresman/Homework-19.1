@@ -19,8 +19,7 @@ def index():
     if user is not None:
         return render_template("game.html")
 
-    response = make_response(render_template("index.html", user=user))
-    return response
+    return render_template("index.html", user=user)
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -58,7 +57,8 @@ def register():
 @app.route("/login", methods=["POST", "GET"])
 def login():
 
-    response = make_response(render_template("login.html"))
+    incorrect_password = False
+    response = make_response(render_template("login.html", incorrect_password=incorrect_password))
 
     if request.method == "POST":
         username = request.form.get("username")
@@ -70,6 +70,9 @@ def login():
         if user.password == hashed_password:
             response = make_response(render_template("game.html"))
             response.set_cookie("session_token", user.session_token, httponly=True, samesite="Strict")
+        elif user.password != hashed_password:
+            incorrect_password = True
+            response = make_response(render_template("login.html", incorrect_password=incorrect_password))
 
     return response
 

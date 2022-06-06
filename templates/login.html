@@ -3,6 +3,10 @@
 {% block title %}Login{% endblock title %}
 
 {% block content %}
+
+    {% if incorrect_password %}
+        <p>Your password is incorrect, please try again.</p>
+    {% endif %}
     <form action="/login" method="post">
         <div class="username">
             <label for="correct-username">Enter your username</label>
