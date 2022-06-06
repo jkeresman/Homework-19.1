@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <form action="/login" method="post">
+        <div class="username">
+            <label for="correct-username">Enter your username</label>
+            <input type="text" id="correct-username" name="username" autofocus>
+        </div>
+        <div class="password">
+            <label for="correct-password">Enter your password</label>
+            <input type="password" id="correct-password" name="password">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+{% endblock content %}
