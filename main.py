@@ -25,6 +25,7 @@ def index():
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
+    response = make_response(render_template("register.html"))
 
     if request.method == "POST":
 
@@ -50,9 +51,6 @@ def register():
         user.save()
 
         response = make_response(render_template("login.html"))
-
-    else:
-        response = make_response(render_template("register.html"))
 
     return response
 
