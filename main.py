@@ -60,6 +60,8 @@ def register():
 @app.route("/login", methods=["POST", "GET"])
 def login():
 
+    response = make_response(render_template("login.html"))
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -70,10 +72,6 @@ def login():
         if user.password == hashed_password:
             response = make_response(render_template("game.html"))
             response.set_cookie("session_token", user.session_token, httponly=True, samesite="Strict")
-        else:
-            response = make_response(render_template("login.html"))
-    else:
-        response = make_response(render_template("login.html"))
 
     return response
 
@@ -115,4 +113,4 @@ def secret_number_handler():
 
 
 if __name__ == "__main__":
-    app.run(port=5005, use_reloader=True)
+    app.run(use_reloader=True)
