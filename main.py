@@ -17,7 +17,7 @@ def index():
 
     user = check_if_user_is_logged_in(session_token=session_token)
     if user is not None:
-        return render_template("game.html")
+        return render_template("game.html", user=user)
 
     return render_template("index.html")
 
@@ -68,7 +68,7 @@ def login():
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
         if user.password == hashed_password:
-            response = make_response(render_template("game.html"))
+            response = make_response(render_template("game.html", user=user))
             response.set_cookie("session_token", user.session_token, httponly=True, samesite="Strict")
         elif user.password != hashed_password:
             incorrect_password = True
@@ -77,7 +77,7 @@ def login():
     return response
 
 
-@app.route("/log-out", methods=["POST"])
+@app.route("/log-out", methods=["POST", "GET"])
 def log_out():
 
     response = make_response(redirect(url_for("index")))
@@ -111,6 +111,15 @@ def secret_number_handler():
                                              guess=user_guess
                                              ))
     return response
+
+
+@app.route("/profile")
+def profile_handler():
+
+    session_token = request.cookies.get("session_token")
+    user = check_if_user_is_logged_in(session_token=session_token)
+
+    return render_template("profile.html", user=user)
 
 
 if __name__ == "__main__":

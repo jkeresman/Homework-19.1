@@ -9,13 +9,16 @@
 </head>
 <body>
 
+    {% if user %}
     <header>
         <nav>
-            <form action="/log-out" method="post">
-                <button type="submit">Logout</button>
-            </form>
+            <a href="/profile">Profile</a>
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            <a href="/">Secret number</a>
         </nav>
     </header>
+    {% endif %}
 
     <main>
         {% block content %}
