@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
 from user import User, db
-from functions import check_if_user_exists
+from functions import check_if_user_is_logged_in
 import constants
 import random
 import hashlib
@@ -15,11 +15,11 @@ def index():
 
     session_token = request.cookies.get("session_token")
 
-    user = check_if_user_exists(session_token=session_token)
+    user = check_if_user_is_logged_in(session_token=session_token)
     if user is not None:
         return render_template("game.html")
 
-    return render_template("index.html", user=user)
+    return render_template("index.html")
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -95,7 +95,7 @@ def secret_number_handler():
     guess_is_correct = False
 
     session_token = request.cookies.get("session_token")
-    user = check_if_user_exists(session_token=session_token)
+    user = check_if_user_is_logged_in(session_token=session_token)
 
     user_guess = int(request.form.get("user-guess"))
 
