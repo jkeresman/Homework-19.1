@@ -5,20 +5,23 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/base.css">
     <title>{% block title %} Default title {% endblock title %} </title>
 </head>
 <body>
 
-    {% if user %}
     <header>
         <nav>
-            <a href="/profile">Profile</a>
-            <a href="/register">Register</a>
-            <a href="/login">Login</a>
-            <a href="/">Secret number</a>
+            {% if user %}
+                <a href="/profile">Profile</a>
+                <a href="/register">Register</a>
+                <a href="/">Secret number</a>
+            {% else %}
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+            {% endif %}
         </nav>
     </header>
-    {% endif %}
 
     <main>
         {% block content %}

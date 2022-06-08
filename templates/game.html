@@ -4,12 +4,14 @@
 
 {% block content %}
 
-    <form action="/secret-number" method="post">
-        <div class="secret-number">
-            <label for="secret-number">Number is between 1 and 30!</label>
-            <input type="text" id="secret-number" name="user-guess">
-        </div>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <form action="/secret-number" method="post">
+            <div class="secret-number">
+                <label for="secret-number">Number is between 1 and 30!</label>
+                <input type="text" id="secret-number" name="user-guess">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
 {% endblock content %}

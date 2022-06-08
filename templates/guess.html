@@ -4,26 +4,28 @@
 
 {% block content %}
 
-  {% if guess_is_correct %}
+  <div class="container">
+      {% if guess_is_correct %}
 
-    <h1>Congratulation!</h1>
-    <p>You've guessed it!</p>
-    <a href="/">Play again</a>
+        <h1>Congratulation!</h1>
+        <p>You've guessed it!</p>
+        <a href="/">Play again</a>
 
-  {% else %}
+      {% else %}
 
-    <p>Your guess is incorrect!</p>
-    <p>Your guess: {{guess}}</p>
+        <p>Your guess is incorrect!</p>
+        <p>Your guess: {{guess}}</p>
 
-    {% if secret_number > guess %}
+        {% if secret_number > guess %}
 
-      <p>Try something bigger!</p>
+          <p>Try something bigger!</p>
 
-    {% else %}
+        {% else %}
 
-      <p>Try something smaller!</p>
+          <p>Try something smaller!</p>
 
-    {% endif %}
-    <a href="/">Try again!</a>
-  {% endif %}
+        {% endif %}
+        <a href="/">Try again!</a>
+      {% endif %}
+  </div>
 {% endblock content %}

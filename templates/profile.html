@@ -3,8 +3,12 @@
 {% block title %}Profile{% endblock title %}
 
 {% block content %}
-    <h1>Profile</h1>
-    <p>Name: {{user.first_name}}  {{user.last_name}}</p>
-    <p>Email: {{user.email}}</p>
-    <a href="/log-out">Logout</a>
+
+    <div class="container">
+        <h1>Profile</h1>
+        <p>Name: {{user.first_name}}  {{user.last_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <a href="/logout">Logout</a>
+    </div>
+
 {% endblock content %}

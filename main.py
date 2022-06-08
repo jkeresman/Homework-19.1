@@ -77,7 +77,7 @@ def login():
     return response
 
 
-@app.route("/log-out", methods=["POST", "GET"])
+@app.route("/logout", methods=["POST", "GET"])
 def log_out():
 
     response = make_response(redirect(url_for("index")))
@@ -108,7 +108,8 @@ def secret_number_handler():
     response = make_response(render_template("guess.html",
                                              guess_is_correct=guess_is_correct,
                                              secret_number=user.secret_number,
-                                             guess=user_guess
+                                             guess=user_guess,
+                                             user=user,
                                              ))
     return response
 
