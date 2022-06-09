@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
 from user import User, db
-from functions import check_if_user_is_logged_in
+from functions import get_user_by_session_token
 import constants
 import random
 import hashlib
@@ -15,7 +15,8 @@ def index():
 
     session_token = request.cookies.get("session_token")
 
-    user = check_if_user_is_logged_in(session_token=session_token)
+    user = get_user_by_session_token(session_token=session_token)
+
     if user is not None:
         return render_template("game.html", user=user)
 
@@ -32,8 +33,9 @@ def register():
         last_name = request.form.get("last-name")
         username = request.form.get("username")
         password = request.form.get("password")
-        hashed_password = hashlib.sha256(password.encode()).hexdigest()
         email = request.form.get("email")
+
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
         session_token = str(uuid.uuid4())
 
         secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
@@ -57,22 +59,28 @@ def register():
 @app.route("/login", methods=["POST", "GET"])
 def login():
 
-    incorrect_password = False
-    response = make_response(render_template("login.html", incorrect_password=incorrect_password))
+    response = make_response(render_template("login.html"))
 
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
         user = db.query(User).filter_by(username=username).first()
-        hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
-        if user.password == hashed_password:
-            response = make_response(render_template("game.html", user=user))
-            response.set_cookie("session_token", user.session_token, httponly=True, samesite="Strict")
-        elif user.password != hashed_password:
-            incorrect_password = True
-            response = make_response(render_template("login.html", incorrect_password=incorrect_password))
+        if user is None:
+            incorrect_username = True
+            response = make_response(render_template("login.html", incorrect_username=incorrect_username))
+
+        else:
+            hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+            if user.password == hashed_password:
+                response = make_response(render_template("game.html", user=user))
+                response.set_cookie("session_token", user.session_token, httponly=True, samesite="Strict")
+
+            elif user.password != hashed_password:
+                incorrect_password = True
+                response = make_response(render_template("login.html", incorrect_password=incorrect_password))
 
     return response
 
@@ -95,7 +103,8 @@ def secret_number_handler():
     guess_is_correct = False
 
     session_token = request.cookies.get("session_token")
-    user = check_if_user_is_logged_in(session_token=session_token)
+
+    user = get_user_by_session_token(session_token=session_token)
 
     user_guess = int(request.form.get("user-guess"))
 
@@ -118,7 +127,7 @@ def secret_number_handler():
 def profile_handler():
 
     session_token = request.cookies.get("session_token")
-    user = check_if_user_is_logged_in(session_token=session_token)
+    user = get_user_by_session_token(session_token=session_token)
 
     return render_template("profile.html", user=user)
 

@@ -4,32 +4,41 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container register">
+
+        <h1>Register</h1>
+
         <form action="/register" method="post">
+
+
             <div class="first_name">
-                <label for="first-name">Enter your first name: </label>
-                <input type="text" id="first-name" name="first-name" autofocus>
+                <label for="first-name"></label>
+                <input type="text" id="first-name" name="first-name" placeholder="first name" autofocus>
             </div>
             <div class="last_name">
-                <label for="last-name">Enter your last name: </label>
-                <input type="text" id="last-name" name="last-name">
+                <label for="last-name"></label>
+                <input type="text" id="last-name" name="last-name" placeholder="last name">
             </div>
             <div class="email">
-                <label for="email">Enter your email</label>
-                <input type="email" id="email" name="email">
+                <label for="email"></label>
+                <input type="email" id="email" name="email" placeholder="email">
             </div>
             <div class="username">
-                <label for="username">Enter your username</label>
-                <input type="text" id="username" name="username">
+                <label for="username"></label>
+                <input type="text" id="username" name="username" placeholder="username">
             </div>
             <div class="password">
-                <label for="password">Enter your password</label>
-                <input type="password" id="password" name="password">
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="password">
             </div>
-            <div class="register-login-option">
-                <button type="submit">Register</button>
-                <a href="/login">Login</a>
+            <div class="register-button">
+                <span class="before"></span>
+                <span class="after"></span>
             </div>
+
+            <button class="button" type="submit">Register</button>
+            <a class="link" href="/login">Login</a>
+
         </form>
     </div>
 

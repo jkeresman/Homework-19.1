@@ -6,18 +6,21 @@
 
     <div class="container">
         {% if incorrect_password %}
-            <p>Your password is incorrect, please try again.</p>
+            <p>Your password is incorrect, please try again!</p>
+        {% elif incorrect_username %}
+            <p>You've entered incorrect username, please try again!</p>
         {% endif %}
         <form action="/login" method="post">
+            <h1>Login</h1>
             <div class="username">
-                <label for="correct-username">Enter your username</label>
-                <input type="text" id="correct-username" name="username" autofocus>
+                <label for="correct-username"></label>
+                <input type="text" id="correct-username" name="username" placeholder="username" autofocus>
             </div>
             <div class="password">
-                <label for="correct-password">Enter your password</label>
-                <input type="password" id="correct-password" name="password">
+                <label for="correct-password"></label>
+                <input type="password" id="correct-password" placeholder="password" name="password">
             </div>
-            <button type="submit">Login</button>
+            <button class="button" type="submit">Login</button>
         </form>
     </div>
 
