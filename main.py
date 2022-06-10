@@ -33,25 +33,37 @@ def register():
         last_name = request.form.get("last-name")
         username = request.form.get("username")
         password = request.form.get("password")
+        re_entered_password = request.form.get("password-check")
         email = request.form.get("email")
 
-        hashed_password = hashlib.sha256(password.encode()).hexdigest()
-        session_token = str(uuid.uuid4())
+        user = db.query(User).filter_by(username=username).first()
 
-        secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
+        if user is not None:
+            user_already_exists = True
+            response = make_response(render_template("register.html", user_already_exists=user_already_exists))
 
-        user = User(first_name=first_name,
-                    last_name=last_name,
-                    email=email,
-                    secret_number=secret_number,
-                    password=hashed_password,
-                    username=username,
-                    session_token=session_token,
-                    )
+        elif re_entered_password != password:
+            incorrect_password = True
+            response = make_response(render_template("register.html", incorrect_password=incorrect_password))
 
-        user.save()
+        else:
+            hashed_password = hashlib.sha256(password.encode()).hexdigest()
+            session_token = str(uuid.uuid4())
 
-        response = make_response(render_template("login.html"))
+            secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
+
+            user = User(first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        secret_number=secret_number,
+                        password=hashed_password,
+                        username=username,
+                        session_token=session_token,
+                        )
+
+            user.save()
+
+            response = make_response(render_template("login.html"))
 
     return response
 
@@ -86,7 +98,7 @@ def login():
 
 
 @app.route("/logout", methods=["POST", "GET"])
-def log_out():
+def logout():
 
     response = make_response(redirect(url_for("index")))
 

@@ -5,11 +5,19 @@
 {% block content %}
 
     <div class="container">
+
         <form action="/secret-number" method="post">
+
             <h1>Number is between 1 and 30!</h1>
-            <input type="text" id="secret-number" name="user-guess" placeholder="Enter your guess" autofocus>
+
+            <div class="user-input">
+                <input type="text" id="secret-number" name="user-guess" placeholder="Enter your guess" autofocus>
+            </div>
+
             <button class="button" type="submit">Submit</button>
+
         </form>
+
     </div>
 
 {% endblock content %}
