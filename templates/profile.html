@@ -3,11 +3,16 @@
 {% block content %}
 
     <div class="container">
+
         <h1>Profile</h1>
         <p>Username: {{user.username}}</p>
         <p>Name: {{user.first_name}} {{user.last_name}}</p>
         <p>Email: {{user.email}}</p>
-        <a class="link" href="/logout">Logout</a>
+
+        <div class="links">
+            <a class="link" href="/change-password">Change password</a>
+            <a class="link" href="/logout">Logout</a>
+        </div>
     </div>
 
 {% endblock content %}

@@ -6,6 +6,11 @@
 
     <div class="container">
         <h1>Guess the secret number</h1>
+        {% if password_change %}
+            <p>Your password was successfully changed!</p>
+            <p>Now you can log in with your new password.</p>
+        {% endif %}
     </div>
+
 
 {% endblock content %}

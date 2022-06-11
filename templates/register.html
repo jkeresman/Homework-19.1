@@ -15,6 +15,9 @@
         {% elif incorrect_password %}
             <p>Wrong password!</p>
             <p>Please try again!</p>
+        {% elif too_short_password %}
+            <p>Your password is too short.</p>
+            <p>Please try again!</p>
         {% endif %}
 
         <form action="/register" method="post">

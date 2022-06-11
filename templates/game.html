@@ -10,6 +10,11 @@
 
             <h1>Number is between 1 and 30!</h1>
 
+            {% if incorrect_input %}
+                <p>Please enter a number!</p>
+                <p>{{user_guess}} is not a number!</p>
+            {% endif %}
+
             <div class="user-input">
                 <input type="text" id="secret-number" name="user-guess" placeholder="Enter your guess" autofocus>
             </div>
