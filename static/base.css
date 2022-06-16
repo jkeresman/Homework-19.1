@@ -9,6 +9,8 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     background-image: linear-gradient(to right top, #e31fec, #c415ee, #a014f0, #7319f1, #2121f2);
     color: #fff;
     font-family: sans-serif;

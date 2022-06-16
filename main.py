@@ -126,6 +126,9 @@ def secret_number_handler():
     try:
         int_user_guess = int(float(user_guess))
     except ValueError:
+        if len(user_guess) > 10:
+            user_guess = user_guess[:10]
+
         return render_template("game.html", incorrect_input=True, user_guess=user_guess)
 
     if user.secret_number == int_user_guess:
