@@ -124,7 +124,7 @@ def secret_number_handler():
     user = get_user_by_session_token(session_token=session_token)
 
     try:
-        int_user_guess = int(user_guess)
+        int_user_guess = int(float(user_guess))
     except ValueError:
         return render_template("game.html", incorrect_input=True, user_guess=user_guess)
 
