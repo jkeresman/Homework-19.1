@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
-from sqlalchemy_pagination import paginate
 from functions import *
 from user import User, db
 import constants
