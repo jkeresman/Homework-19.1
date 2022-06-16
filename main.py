@@ -126,8 +126,8 @@ def secret_number_handler():
     try:
         int_user_guess = int(float(user_guess))
     except ValueError:
-        if len(user_guess) > 10:
-            user_guess = user_guess[:10]
+        if len(user_guess) > constants.MAX_LENGTH_OF_GUESS:
+            user_guess = user_guess[:constants.MAX_LENGTH_OF_GUESS] + "..."
 
         return render_template("game.html", incorrect_input=True, user_guess=user_guess)
 
