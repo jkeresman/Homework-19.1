@@ -11,8 +11,14 @@
             <h1>Number is between 1 and 30!</h1>
 
             {% if incorrect_input %}
+
                 <p>Please enter a number!</p>
-                <p>{{user_guess}} is not a number!</p>
+                {% if too_long_guess %}
+                    <p>{{user_guess}}... is not a number!</p>
+                {% else %}
+                    <p>{{user_guess}} is not a number!</p>
+                {% endif %}
+
             {% endif %}
 
             <div class="user-input">

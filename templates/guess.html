@@ -14,7 +14,12 @@
       {% else %}
 
         <h1>Wrong guess!</h1>
-        <p>Your last guess: {{guess}}</p>
+
+        {% if too_long_guess %}
+          <p>Your last guess: {{guess}}...</p>
+        {% else %}
+          <p>Your last guess: {{guess}}</p>
+        {% endif %}
 
         {% if user.secret_number > guess %}
 

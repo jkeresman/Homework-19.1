@@ -118,18 +118,21 @@ def logout():
 @app.route("/secret-number", methods=["GET", "POST"])
 def secret_number_handler():
 
+    too_long_guess = False
+
     user_guess = request.form.get("user-guess")
 
     session_token = request.cookies.get("session_token")
     user = get_user_by_session_token(session_token=session_token)
 
+    if guess_is_too_long(user_guess=user_guess):
+        too_long_guess = True
+        user_guess = user_guess[:constants.MAX_LENGTH_OF_GUESS]
+
     try:
         int_user_guess = int(float(user_guess))
     except ValueError:
-        if len(user_guess) > constants.MAX_LENGTH_OF_GUESS:
-            user_guess = user_guess[:constants.MAX_LENGTH_OF_GUESS] + "..."
-
-        return render_template("game.html", incorrect_input=True, user_guess=user_guess)
+        return render_template("game.html", incorrect_input=True, user_guess=user_guess, too_long_guess=too_long_guess)
 
     if user.secret_number == int_user_guess:
         new_secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
@@ -151,7 +154,11 @@ def secret_number_handler():
     else:
         user.attempts += 1
         user.save()
-        response = make_response(render_template("guess.html", guess=int_user_guess, user=user))
+        response = make_response(render_template("guess.html",
+                                                 guess=int_user_guess,
+                                                 user=user,
+                                                 too_long_guess=too_long_guess
+                                                 ))
 
     return response
 

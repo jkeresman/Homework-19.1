@@ -28,3 +28,7 @@ def correct_password_check(password: str, user: User) -> bool:
 def user_already_have_an_account(email: str) -> bool:
     user = db.query(User).filter_by(email=email).first()
     return user is not None
+
+
+def guess_is_too_long(user_guess: str) -> bool:
+    return len(user_guess) > constants.MAX_LENGTH_OF_GUESS
