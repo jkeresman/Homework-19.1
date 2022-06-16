@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard{% endblock title %}
+
+{% block content %}
+        <div class="container">
+            <table>
+
+              <tr>
+                  <th>Position</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Score</th>
+              </tr>
+
+                {% for player in players %}
+                    {% if player %}
+                          <tr>
+                              <td>{{loop.index}}.</td>
+                              <td>{{player.username}}</td>
+                              <td>{{player.email}}</td>
+                              <td>{{player.best_score}}</td>
+                          </tr>
+                    {% endif %}
+                {% endfor %}
+
+            </table>
+        </div>
+{% endblock content %}

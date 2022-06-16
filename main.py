@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
+from sqlalchemy_pagination import paginate
 from functions import *
+from user import User, db
 import constants
 import random
 import hashlib
@@ -48,6 +50,9 @@ def register():
             elif not re_entered_password_check(password=password, re_entered_password=re_entered_password):
                 response = make_response(render_template("register.html", incorrect_password=True))
 
+            elif user_already_have_an_account(email=email):
+                response = make_response(render_template("register.html", user_have_account=True))
+
             else:
                 hashed_password = hashlib.sha256(password.encode()).hexdigest()
                 session_token = str(uuid.uuid4())
@@ -61,6 +66,8 @@ def register():
                             password=hashed_password,
                             username=username,
                             session_token=session_token,
+                            best_score=None,
+                            attempts=constants.STARTING_SCORE,
                             )
 
                 user.save()
@@ -125,14 +132,23 @@ def secret_number_handler():
     if user.secret_number == int_user_guess:
         new_secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
         user.secret_number = new_secret_number
-        user.save()
 
+        if user.best_score is None:
+            user.best_score = user.attempts
+
+        elif user.best_score > user.attempts:
+            user.best_score = user.attempts
+
+        user.attempts = constants.STARTING_SCORE
+        user.save()
         response = make_response(render_template("guess.html",
                                                  guess_is_correct=True,
                                                  guess=int_user_guess,
                                                  user=user,
                                                  ))
     else:
+        user.attempts += 1
+        user.save()
         response = make_response(render_template("guess.html", guess=int_user_guess, user=user))
 
     return response
@@ -179,6 +195,20 @@ def change_password():
                 response.set_cookie("session_token", expires=0)
 
     return response
+
+
+@app.route("/leaderboard", methods=["GET"])
+def leaderboard():
+
+    session_token = request.cookies.get("session_token")
+    user = get_user_by_session_token(session_token=session_token)
+
+    all_players = db.query(User).all()
+
+    players_that_played_game = list(filter(lambda player: player.best_score is not None, all_players))
+    players_sorted_by_score = sorted(players_that_played_game, key=lambda player: player.best_score)
+
+    return render_template("leaderboard.html", user=user, players=players_sorted_by_score[:constants.NUMBER_OF_PLAYERS])
 
 
 if __name__ == "__main__":

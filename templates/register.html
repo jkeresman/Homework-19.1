@@ -18,6 +18,8 @@
         {% elif too_short_password %}
             <p>Your password is too short.</p>
             <p>Please try again!</p>
+        {% elif user_have_account %}
+            <p>You already have an account!</p>
         {% endif %}
 
         <form action="/register" method="post">
@@ -26,27 +28,27 @@
 
                 <div class="first_name">
                     <label for="first-name"></label>
-                    <input type="text" id="first-name" name="first-name" placeholder="first name" autofocus>
+                    <input type="text" id="first-name" name="first-name" placeholder="first name" autofocus required>
                 </div>
                 <div class="last_name">
                     <label for="last-name"></label>
-                    <input type="text" id="last-name" name="last-name" placeholder="last name">
+                    <input type="text" id="last-name" name="last-name" placeholder="last name" required>
                 </div>
                 <div class="email">
                     <label for="email"></label>
-                    <input type="email" id="email" name="email" placeholder="email">
+                    <input type="email" id="email" name="email" placeholder="email" required>
                 </div>
                 <div class="username">
                     <label for="username"></label>
-                    <input type="text" id="username" name="username" placeholder="username">
+                    <input type="text" id="username" name="username" placeholder="username" required>
                 </div>
                 <div class="password">
                     <label for="password"></label>
-                    <input type="password" id="password" name="password" placeholder="password">
+                    <input type="password" id="password" name="password" placeholder="password" required>
                 </div>
                 <div class="password">
                     <label for="password-check"></label>
-                    <input type="password" id="password-check" name="password-check" placeholder="password">
+                    <input type="password" id="password-check" name="password-check" placeholder="password" required>
                 </div>
 
             </div>

@@ -23,3 +23,8 @@ def re_entered_password_check(password: str, re_entered_password: str) -> bool:
 def correct_password_check(password: str, user: User) -> bool:
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     return hashed_password == user.password
+
+
+def user_already_have_an_account(email: str) -> bool:
+    user = db.query(User).filter_by(email=email).first
+    return user is not None

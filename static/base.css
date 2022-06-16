@@ -123,5 +123,19 @@ form label{
     margin-top: 12px;
 }
 
+table tr th{
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-bottom: 1px solid #fff;
+    letter-spacing: 1px;
+}
+
+table tr td{
+    padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid #fff;
+}
+
 
 
