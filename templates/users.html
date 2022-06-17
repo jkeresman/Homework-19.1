@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock title %}
+
+{% block content %}
+
+    {% for user in users %}
+        <div class="container">
+
+            <a class="link" href="/users/{{user.id}}"><h2>{{user.first_name}} {{user.last_name}}</h2></a>
+            <p>Username: {{user.username}}</p>
+            <p>Best score: {{user.best_score}}</p>
+        </div>
+    {% endfor %}
+
+{% endblock content %}

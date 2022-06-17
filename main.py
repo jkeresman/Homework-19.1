@@ -103,7 +103,7 @@ def login():
     return response
 
 
-@app.route("/logout", methods=["POST", "GET"])
+@app.route("/profile/logout", methods=["POST", "GET"])
 def logout():
 
     response = make_response(redirect(url_for("index")))
@@ -132,7 +132,11 @@ def secret_number_handler():
     try:
         int_user_guess = int(float(user_guess))
     except ValueError:
-        return render_template("game.html", incorrect_input=True, user_guess=user_guess, too_long_guess=too_long_guess)
+        return render_template("game.html",
+                               incorrect_input=True,
+                               user_guess=user_guess,
+                               too_long_guess=too_long_guess,
+                               user=user)
 
     if user.secret_number == int_user_guess:
         new_secret_number = random.randint(constants.RANDOM_LOW_LIMIT, constants.RANDOM_HIGH_LIMIT)
@@ -172,7 +176,7 @@ def profile_handler():
     return render_template("profile.html", user=user)
 
 
-@app.route("/change-password", methods=["GET", "POST"])
+@app.route("/profile/change-password", methods=["GET", "POST"])
 def change_password():
 
     session_token = request.cookies.get("session_token")
@@ -218,6 +222,42 @@ def leaderboard():
     players_sorted_by_score = sorted(players_that_played_game, key=lambda player: player.best_score)
 
     return render_template("leaderboard.html", user=user, players=players_sorted_by_score[:constants.NUMBER_OF_PLAYERS])
+
+
+@app.route("/profile/delete-profile", methods=["GET", "POST"])
+def delete_profile():
+
+    session_token = request.cookies.get("session_token")
+    user = get_user_by_session_token(session_token=session_token)
+
+    response = make_response(render_template("delete_profile.html", user=user))
+
+    if request.method == "POST":
+        user.delete()
+        response = make_response(redirect(url_for("index")))
+
+    return response
+
+
+@app.route("/users", methods=["GET"])
+def all_users():
+
+    session_token = request.cookies.get("session_token")
+    user = get_user_by_session_token(session_token=session_token)
+
+    users = db.query(User).all()
+    return render_template("users.html", users=users, user=user)
+
+
+@app.route("/users/<user_id>", methods=["GET"])
+def user_details(user_id):
+
+    session_token = request.cookies.get("session_token")
+    logged_in_user = get_user_by_session_token(session_token=session_token)
+
+    observed_user = db.query(User).get(int(user_id))
+
+    return render_template("user_details.html", user=logged_in_user, observed_user=observed_user)
 
 
 if __name__ == "__main__":

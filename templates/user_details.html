@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | {{observed_user.first_name}} {{observed_user.last_name}}{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <h2>{{observed_user.first_name}} {{observed_user.last_name}}</h2>
+        <p>Username: {{observed_user.username}}</p>
+        <p>Email: {{observed_user.email}}</p>
+        <p>Best score: {{observed_user.best_score}}</p>
+    </div>
+
+{% endblock content %}

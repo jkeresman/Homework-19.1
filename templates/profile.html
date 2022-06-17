@@ -1,21 +1,32 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+
+{% endblock head %}
+
 {% block title %}Profile{% endblock title %}
 
 {% block content %}
 
-    <div class="container">
-
-        <h1>Profile</h1>
-        <p>Username: {{user.username}}</p>
-        <p>Name: {{user.first_name}} {{user.last_name}}</p>
-        <p>Email: {{user.email}}</p>
-        <p>Best score : {{user.best_score}}</p>
-
-        <div class="links">
-            <a class="link" href="/change-password">Change password</a>
-            <a class="link" href="/logout">Logout</a>
-        </div>
+    <div class="profile-main">
+        <img src="../static/male-blank-profile-picture.jpg" alt="Profile picture">
+        <h1>{{user.first_name}} {{user.last_name}}</h1>
     </div>
 
+    <div class="container">
+        <p>Username: {{user.username}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Best score : {{user.best_score}}</p>
+    </div>
+
+    <div class="container">
+        <div class="links">
+            <a class="link" href="/profile/change-password">Change password</a>
+            <a class="link" href="/profile/logout">Logout</a>
+            <a class="link" href="/profile/delete-profile">Delete profile</a>
+        </div>
+    </div>
 {% endblock content %}
