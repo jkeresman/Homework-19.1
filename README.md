@@ -6,7 +6,7 @@
 * authentication, session tokens
 * leaderboard, profiles..
 
-### Homework 20.2
+### Homework 22.2
 * Writing tests for application
 
 ### Live site:
