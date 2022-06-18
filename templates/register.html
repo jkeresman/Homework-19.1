@@ -8,18 +8,17 @@
 
         <h1>Register</h1>
 
-        {% if user_already_exists %}
-            <p>You've entered username that already exists.</p>
-            <p>Please try something else!</p>
+        {% if user_have_account %}
+            <p>You already have an account!</p>
 
         {% elif incorrect_password %}
             <p>Wrong password!</p>
             <p>Please try again!</p>
+
         {% elif too_short_password %}
             <p>Your password is too short.</p>
             <p>Please try again!</p>
-        {% elif user_have_account %}
-            <p>You already have an account!</p>
+
         {% endif %}
 
         <form action="/register" method="post">
@@ -51,11 +50,6 @@
                     <input type="password" id="password-check" name="password-check" placeholder="password" required>
                 </div>
 
-            </div>
-
-            <div class="register-button">
-                <span class="before"></span>
-                <span class="after"></span>
             </div>
 
             <button class="button" type="submit">Register</button>

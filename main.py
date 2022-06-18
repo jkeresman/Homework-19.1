@@ -38,9 +38,8 @@ def register():
 
         user = db.query(User).filter_by(username=username).first()
 
-        if user is not None:
-            user_already_exists = True
-            response = make_response(render_template("register.html", user_already_exists=user_already_exists))
+        if user is not None or user_already_have_an_account(email=email):
+            response = make_response(render_template("register.html", user_have_account=True))
 
         else:
             if too_short_password_check(password=password):
@@ -48,9 +47,6 @@ def register():
 
             elif not re_entered_password_check(password=password, re_entered_password=re_entered_password):
                 response = make_response(render_template("register.html", incorrect_password=True))
-
-            elif user_already_have_an_account(email=email):
-                response = make_response(render_template("register.html", user_have_account=True))
 
             else:
                 hashed_password = hashlib.sha256(password.encode()).hexdigest()
