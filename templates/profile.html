@@ -16,23 +16,47 @@
         <h1>{{user.first_name}} {{user.last_name}}</h1>
     </div>
 
-    <div class="container">
-        <h3>basic info</h3>
-        <p>Username: {{user.username}}</p>
-        <p>Email: {{user.email}}</p>
-
-        {% if user.best_score != None %}
-            <p>Best score : {{user.best_score}}</p>
-        {% endif %}
-
-    </div>
-
-    <div class="container">
-        <div class="links">
-            <a class="link" href="/profile/change-password">Change password</a>
-            <a class="link" href="/profile/logout">Logout</a>
-            <a class="link" href="/profile/delete-profile">Delete profile</a>
+    {% if edit_profile %}
+        <div class="container">
+                <h3>Edit your profile!</h3>
+                <form action="/profile/edit-profile" method="post">
+                    <div class="first-name">
+                        <input type="text" value="{{user.first_name}}" name="profile-first-name" autofocus>
+                    </div>
+                    <div class="last-name">
+                        <input type="text" value="{{user.last_name}}" name="profile-last-name">
+                    </div>
+                    <div class="username">
+                        <input type="username" value="{{user.username}}" name="profile-username">
+                    </div>
+                    <div class="email">
+                        <input type="email" value="{{user.email}}"  name="profile-email" >
+                    </div>
+                    <button class="button" type="submit">Edit</button>
+                </form>
         </div>
-    </div>
+    {% else %}
+
+        <div class="container">
+            <h3>basic info</h3>
+            <p>Username: {{user.username}}</p>
+            <p>Email: {{user.email}}</p>
+
+            {% if user.best_score != None %}
+                <p>Best score : {{user.best_score}}</p>
+            {% endif %}
+
+        </div>
+
+        <div class="container">
+            <div class="links">
+                <a class="link" href="/profile/change-password">Change password</a>
+                <a class="link" href="/profile/logout">Logout</a>
+                <a class="link" href="/profile/delete-profile">Delete profile</a>
+                <a class="link" href="/profile/edit-profile">Edit profile</a>
+            </div>
+        </div>
+
+    {% endif %}
 
 {% endblock content %}

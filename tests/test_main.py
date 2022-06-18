@@ -302,3 +302,29 @@ def test_guessing_logic(client):
     assert b'Try something smaller!' in response.data
     assert b'Try again' in response.data
 
+
+def test_edit_profile_test(client):
+
+    test_user_is_logged_in(client)
+
+    # GET
+    response = client.get('/profile/edit-profile')
+    assert b'Edit your profile!' in response.data
+
+    # POST
+    response = client.post('/profile/edit-profile',
+                           data={
+                               "profile-first-name": "edited_first_name",
+                               "profile-last-name": "edited_last_name",
+                               "profile-username": "edited_username",
+                               "profile-email": "edited_email",
+                                },
+                           follow_redirects=True,
+                           )
+
+    user = db.query(User).first()
+
+    assert user.first_name == "edited_first_name"
+    assert user.last_name == "edited_last_name"
+    assert user.username == "edited_username"
+    assert user.email == "edited_email"

@@ -264,5 +264,32 @@ def user_details(user_id):
     return render_template("user_details.html", user=logged_in_user, observed_user=observed_user)
 
 
+@app.route("/profile/edit-profile", methods=["GET", "POST"])
+def edit_profile():
+
+    session_token = request.cookies.get("session_token")
+    user = get_user_by_session_token(session_token=session_token)
+
+    response = make_response(render_template("profile.html", user=user, edit_profile=True))
+
+    if request.method == "POST":
+        first_name = request.form.get("profile-first-name")
+        last_name = request.form.get("profile-last-name")
+        email = request.form.get("profile-email")
+        username = request.form.get("profile-username")
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.username = username
+
+        # TODO check if username or email already exist before updating profile info
+        user.save()
+
+        response = make_response(redirect(url_for('profile_handler', user=user)))
+
+    return response
+
+
 if __name__ == "__main__":
     app.run(use_reloader=True)
