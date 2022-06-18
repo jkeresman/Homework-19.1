@@ -1,15 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Users{% endblock title %}
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/users.css') }}">
+
+{% endblock head %}
 
 {% block content %}
 
     {% for user in users %}
         <div class="container">
 
-            <a class="link" href="/users/{{user.id}}"><h2>{{user.first_name}} {{user.last_name}}</h2></a>
-            <p>Username: {{user.username}}</p>
-            <p>Best score: {{user.best_score}}</p>
+            <img src="../static/images/male-blank-profile-picture.jpg" alt="profile image">
+
+            <div class="user-info">
+                <a class="link" href="/users/{{user.id}}"><h2>{{user.first_name}} {{user.last_name}}</h2></a>
+                <p>Best score: {{user.best_score}}</p>
+            </div>
+
         </div>
     {% endfor %}
 

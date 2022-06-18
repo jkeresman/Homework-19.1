@@ -32,3 +32,12 @@ h1{
     letter-spacing: 1px;
     font-weight: bold;
 }
+
+.container h3{
+    text-transform: uppercase;
+    border-bottom: 2px solid #fff;
+    text-align: center;
+    letter-spacing: 2px;
+    width: 100%;
+    margin-bottom: 10px;
+}

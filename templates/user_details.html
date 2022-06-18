@@ -1,14 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Profile | {{observed_user.first_name}} {{observed_user.last_name}}{% endblock title %}
+{% block title %}Profile | {observed_observed_user.first_name}} {{observed_user.last_name}}{% endblock title %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+
+{% endblock head %}
 
 {% block content %}
 
+    <div class="profile-main">
+        <img src="../static/images/male-blank-profile-picture.jpg" alt="Profile picture">
+        <h1>{{observed_user.first_name}} {{observed_user.last_name}}</h1>
+    </div>
+
     <div class="container">
-        <h2>{{observed_user.first_name}} {{observed_user.last_name}}</h2>
+
+        <h3>Basic info</h3>
+
         <p>Username: {{observed_user.username}}</p>
         <p>Email: {{observed_user.email}}</p>
-        <p>Best score: {{observed_user.best_score}}</p>
+        <p>Best score : {{observed_user.best_score}}</p>
     </div>
+
 
 {% endblock content %}

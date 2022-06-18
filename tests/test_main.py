@@ -3,6 +3,7 @@ import pytest
 
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 
+from user import User
 from main import app, db
 
 
@@ -252,4 +253,52 @@ def test_change_password_too_short_new_password(client):
     assert b'Your new password is too short.' in response.data
     assert b'Please try again!' in response.data
 
+
+def test_logout(client):
+
+    test_user_is_logged_in(client)
+
+    response = client.post("/profile/logout", follow_redirects=True)
+
+    assert b'Guess the secret number' in response.data
+
+
+def test_guessing_logic(client):
+
+    test_user_is_logged_in(client)
+
+    user = db.query(User).first()
+
+    user.secret_number = 15
+    user.save()
+
+    # correct guess
+    response = client.post("/secret-number",
+                           data={
+                               "user-guess": "15"
+                           })
+
+    assert b'Congratulation!' in response.data
+    assert b'You have guessed it!' in response.data
+    assert b'Play again' in response.data
+
+    # too small guess
+    response = client.post("/secret-number",
+                           data={
+                               "user-guess": "1"
+                           })
+
+    assert b'Wrong guess!' in response.data
+    assert b'Try something bigger!' in response.data
+    assert b'Try again' in response.data
+
+    # too big guess
+    response = client.post("/secret-number",
+                           data={
+                               "user-guess": "30"
+                           })
+
+    assert b'Wrong guess!' in response.data
+    assert b'Try something smaller!' in response.data
+    assert b'Try again' in response.data
 
