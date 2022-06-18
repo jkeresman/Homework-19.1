@@ -21,7 +21,7 @@
         <p>Username: {{user.username}}</p>
         <p>Email: {{user.email}}</p>
 
-        {% if user.best_score is not None %}
+        {% if user.best_score != None %}
             <p>Best score : {{user.best_score}}</p>
         {% endif %}
 
