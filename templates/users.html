@@ -9,7 +9,8 @@
 
 {% block content %}
 
-    {% for user in users %}
+
+    {% for user in users.items %}
         <div class="container">
 
             <img src="../static/images/male-blank-profile-picture.jpg" alt="profile image">
@@ -21,5 +22,13 @@
 
         </div>
     {% endfor %}
+
+    <div class="container">
+
+        {% for page_number in range(users.pages) %}
+            <a class="link" href="/users?page={{page_number + 1}}">{{page_number + 1}}</a>
+        {% endfor %}
+
+    </div>
 
 {% endblock content %}

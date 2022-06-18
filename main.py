@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
 from functions import *
 from user import User, db
+from sqlalchemy_pagination import paginate
 import constants
 import random
 import hashlib
@@ -238,10 +239,17 @@ def delete_profile():
 @app.route("/users", methods=["GET"])
 def all_users():
 
+    page = request.args.get("page")
+
+    if not page:
+        page = constants.STARTING_PAGE
+
     session_token = request.cookies.get("session_token")
     user = get_user_by_session_token(session_token=session_token)
 
-    users = db.query(User).all()
+    users_query = db.query(User)
+
+    users = paginate(query=users_query, page=int(page), page_size=constants.USERS_PER_PAGE)
     return render_template("users.html", users=users, user=user)
 
 
